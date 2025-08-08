@@ -1,0 +1,279 @@
+{% extends "index_base.html" %}
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+<div class="create-post-container">
+    <div class="create-post-card">
+        <div class="create-post-header">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+            <h2>Create new post</h2>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="create-post-form">
+            {% csrf_token %}
+
+            {% if form.errors %}
+            <div class="form-errors">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ed4956" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12" y2="16"></line>
+                </svg>
+                <span>Please fix the errors below</span>
+            </div>
+            {% endif %}
+
+            <div class="form-group image-upload-group">
+                <label for="{{ form.image.id_for_label }}" class="image-upload-label">
+                    <div class="image-upload-area">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8e8e8e" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3l2-2h6l2 2h3a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <p>Upload your photo</p>
+                        <span class="image-upload-hint">Image* (required)</span>
+                    </div>
+                    {{ form.image }}
+                </label>
+                {% if form.image.errors %}
+                <div class="form-error">
+                    {% for error in form.image.errors %}
+                    <span>{{ error|escape }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group caption-group">
+                <label for="{{ form.caption.id_for_label }}">Caption</label>
+                {{ form.caption }}
+                {% if form.caption.errors %}
+                <div class="form-error">
+                    {{ form.caption.errors }}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="publish-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    Publish
+                </button>
+                <a href="{% url 'home' %}" class="cancel-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.create-post-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 0 16px;
+}
+
+.create-post-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.create-post-header {
+    padding: 20px;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.create-post-header svg {
+    stroke: #262626;
+}
+
+.create-post-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #262626;
+    font-weight: 600;
+}
+
+.create-post-form {
+    padding: 20px;
+}
+
+.form-errors {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(237, 73, 86, 0.1);
+    border-radius: 6px;
+    margin-bottom: 20px;
+    color: #ed4956;
+    font-size: 14px;
+}
+
+.image-upload-group {
+    margin-bottom: 24px;
+}
+
+.image-upload-label {
+    display: block;
+    cursor: pointer;
+}
+
+.image-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: #fafafa;
+    border: 1px dashed #dbdbdb;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.image-upload-area:hover {
+    background: #f0f0f0;
+}
+
+.image-upload-area svg {
+    margin-bottom: 12px;
+}
+
+.image-upload-area p {
+    margin: 0 0 4px;
+    color: #262626;
+    font-weight: 500;
+}
+
+.image-upload-hint {
+    font-size: 12px;
+    color: #8e8e8e;
+}
+
+#id_image {
+    display: none;
+}
+
+.caption-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #262626;
+    font-weight: 500;
+}
+
+#id_caption {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: none;
+    min-height: 100px;
+}
+
+#id_caption:focus {
+    outline: none;
+    border-color: #3897f0;
+}
+
+.form-error {
+    margin-top: 8px;
+    color: #ed4956;
+    font-size: 12px;
+}
+
+.form-actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+}
+
+.publish-btn {
+    flex: 1;
+    padding: 12px;
+    background: #3897f0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.publish-btn:hover {
+    background: #2684f0;
+}
+
+.publish-btn svg {
+    stroke: white;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 12px;
+    background: white;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #fafafa;
+}
+
+.cancel-btn svg {
+    stroke: #262626;
+}
+
+@media (max-width: 480px) {
+    .create-post-header {
+        padding: 16px;
+    }
+
+    .create-post-form {
+        padding: 16px;
+    }
+
+    .image-upload-area {
+        padding: 30px 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}

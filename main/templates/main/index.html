@@ -1,0 +1,14 @@
+{% extends "index_base.html" %}
+<title>{% block title %}Login{% endblock %}</title>
+
+{% block content %}
+    <h1>Posts:</h1>
+    <h2>Want to create your own post?</h2>
+    <a href="{% url 'create_post' %}">+</a>
+    <hr>
+    {% for post in posts %}
+        {% include 'posts/post.html' with post=post %}
+    {% endfor %}
+
+{% endblock %}
+

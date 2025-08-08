@@ -1,0 +1,190 @@
+{% extends 'index_base.html' %}
+
+{% block content %}
+<div class="edit-post-container">
+    <div class="edit-post-card">
+        <h2 class="edit-post-title">Edit Post</h2>
+
+        <form method="post" enctype="multipart/form-data" class="edit-post-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.caption.label_tag }}
+                {{ form.caption }}
+                {% if form.caption.errors %}
+                <div class="form-error">{{ form.caption.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group image-upload">
+                <label for="id_image" class="image-upload-label">
+                    {% if form.instance.image %}
+                    <img src="{{ form.instance.image.url }}" class="current-image-preview">
+                    {% else %}
+                    <div class="no-image-placeholder">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3l2-2h6l2 2h3a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <span>Change Image</span>
+                    </div>
+                    {% endif %}
+                </label>
+                {{ form.image }}
+                {% if form.image.errors %}
+                <div class="form-error">{{ form.image.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="save-btn">Save Changes</button>
+                <a href="{% url 'home' %}" class="cancel-btn">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.edit-post-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 16px;
+}
+
+.edit-post-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 24px;
+}
+
+.edit-post-title {
+    margin: 0 0 20px;
+    font-size: 22px;
+    color: #262626;
+    text-align: center;
+}
+
+.edit-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #262626;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: none;
+}
+
+.form-group textarea {
+    min-height: 100px;
+}
+
+.image-upload {
+    position: relative;
+}
+
+.image-upload-label {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+}
+
+.current-image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 6px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.no-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 40px;
+    background: #fafafa;
+    border: 1px dashed #dbdbdb;
+    border-radius: 6px;
+    color: #8e8e8e;
+}
+
+#id_image {
+    display: none;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.save-btn {
+    flex: 1;
+    padding: 10px;
+    background: #3897f0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.save-btn:hover {
+    background: #2684f0;
+}
+
+.cancel-btn {
+    flex: 1;
+    padding: 10px;
+    background: white;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #fafafa;
+}
+
+.form-error {
+    color: #ed4956;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+    .edit-post-card {
+        padding: 16px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+}
+</style>
+{% endblock %}
