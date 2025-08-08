@@ -10,5 +10,17 @@
         {% include 'posts/post.html' with post=post %}
     {% endfor %}
 
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const lastNewsId = "{{ last_news_id }}";
+        if (lastNewsId) {
+            const element = document.getElementById(`post-${lastNewsId}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    });
+</script>
+
 {% endblock %}
 

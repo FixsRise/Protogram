@@ -1,4 +1,11 @@
+import json
+
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
 from posts.models import PostForm, Post, edit_image_name
 
@@ -8,8 +15,86 @@ from posts.models import PostForm, Post, edit_image_name
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    # request.session['last_seen_post_id'] = news_id
+    request.session['last_news_id'] = post_id
     return render(request, 'posts/post_details.html', {'post': post})
+
+
+@require_POST
+@login_required
+def like_post(request, post_id):
+
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {'status': 'error', 'message': 'Authentication required'},
+            status=401
+        )
+
+
+    if not request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse(
+            {'status': 'error', 'message': 'AJAX requests only'},
+            status=400
+        )
+
+
+    if not request.content_type == 'application/json':
+        return JsonResponse(
+            {'status': 'error', 'message': 'Content-Type must be application/json'},
+            status=400
+        )
+
+    try:
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            action = data.get('action')
+        except (json.JSONDecodeError, UnicodeDecodeError, AttributeError) as e:
+            return JsonResponse(
+                {'status': 'error', 'message': 'Invalid JSON format'},
+                status=400
+            )
+
+        if action not in ['like', 'unlike']:
+            return JsonResponse(
+                {'status': 'error', 'message': 'Invalid action parameter'},
+                status=400
+            )
+
+        with transaction.atomic():
+            post = Post.objects.select_for_update().get(id=post_id)
+
+            if not request.user.has_perm('posts.can_like', post):
+                raise PermissionDenied("You can't like this post")
+
+            if action == 'like':
+                post.likes.add(request.user)
+            else:
+                post.likes.remove(request.user)
+
+            likes_count = post.likes.count()
+
+
+        return JsonResponse({
+            'status': 'ok',
+            'likes_count': likes_count,
+            'is_liked': action == 'like'
+        })
+
+    except Post.DoesNotExist:
+        return JsonResponse(
+            {'status': 'error', 'message': 'Post not found'},
+            status=404
+        )
+    except PermissionDenied as e:
+        return JsonResponse(
+            {'status': 'error', 'message': str(e)},
+            status=403
+        )
+    except Exception as e:
+
+        return JsonResponse(
+            {'status': 'error', 'message': 'Internal server error'},
+            status=500
+        )
 
 def create_post(request):
     if request.method == "POST":
@@ -25,6 +110,13 @@ def create_post(request):
     return render(request, 'posts/create_post.html', {'form': form})
 
 
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id, author=request.user)
+    if request.method == "POST":
+        post.delete()
+        return redirect('home')
+
+    return render(request, 'posts/confirm_delete.html', {'post': post})
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
 

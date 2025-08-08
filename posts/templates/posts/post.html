@@ -1,4 +1,4 @@
-<div class="post">
+<div class="post"  id="post-{{ post.id }}">
     <div class="post-header">
         <p>{{ post.author }} - {{ post.created_at }}</p>
         {% if post.was_edited %}
@@ -6,11 +6,12 @@
         {% endif %}
         {% if post.author == request.user %}
         <a href="{% url 'edit_post' post.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-{% endif %}
+        <button class="btn btn-sm btn-outline-danger delete-btn" data-post-id="{{ post.id }}">Delete</button>
+        {% endif %}
     </div>
 
     <div class="post-image-container" onclick="window.location='/posts/{{ post.id }}'">
-        {% if post.image %}  <!-- Проверяем, есть ли изображение -->
+        {% if post.image %}
         <img src="{{ post.image.url }}" class="post-image">
         {% else %}
         <div class="no-image-placeholder">No image</div>
@@ -19,8 +20,22 @@
 
     <div class="post-footer">
         <p>{{ post.caption }}</p>
-        <span>♡ {{ post.likes.count }}</span>
+        {% include 'posts/includes/like_section.html' %}
     </div>
+</div>
+
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Are you sure you want to delete this post?</p>
+    <form method="post" action="">
+      {% csrf_token %}
+      <input type="hidden" name="post_id" value="">
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <button type="button" class="btn btn-secondary cancel-btn">Cancel</button>
+    </form>
+  </div>
 </div>
 
 <style>
@@ -35,13 +50,13 @@
 
 .post-header {
     padding: 12px;
-    cursor: default; /* Запрет клика */
+    cursor: default;
 }
 
 .post-image-container {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Квадрат (можно 4/5) */
-    cursor: pointer; /* Кликабельно */
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
 }
 
 .post-image {
@@ -55,14 +70,13 @@
     padding: 12px;
     opacity: 0.9;
     transition: opacity 0.3s ease;
-    cursor: default; /* Запрет клика */
+    cursor: default;
 }
 
 .post:hover .post-footer {
     opacity: 1;
 }
 
-/* Стили текста */
 .post-header p {
     margin: 0;
     font-weight: bold;
@@ -73,4 +87,75 @@
     font-size: 0.8em;
     margin-top: 4px !important;
 }
+
+/* Стили модального окна */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: black;
+}
+
+.cancel-btn {
+    margin-left: 10px;
+}
 </style>
+
+<script>
+document.querySelectorAll('.delete-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const postId = this.dataset.postId;
+    const modal = document.getElementById('modal');
+
+    modal.querySelector('form').action = `/posts/delete/${postId}/`;
+    modal.querySelector('input[name="post_id"]').value = postId;
+
+
+    modal.style.display = 'block';
+  });
+});
+
+
+document.querySelector('.close').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'none';
+});
+
+document.querySelector('.cancel-btn').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'none';
+});
+
+
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('modal');
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+});
+</script>

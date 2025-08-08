@@ -1,4 +1,10 @@
+{% extends "index_base.html" %}
+{% block title %}Create Post{% endblock %}
+
+{% block content %}
+
 <div class="post-detail">
+
     <a href="{{ request.META.HTTP_REFERER }}" class="back-link">← Back</a>
 
     <div class="post-header">
@@ -19,7 +25,7 @@
     <div class="post-content">
         <h2 class="post-caption">{{ post.caption }}</h2>
         <div class="post-stats">
-            <span class="likes-count">♡ {{ post.likes.count }}</span>
+            {% include 'posts/includes/like_section.html' %}
         </div>
     </div>
 </div>
@@ -121,3 +127,4 @@
     }
 }
 </style>
+{% endblock %}
