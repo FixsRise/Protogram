@@ -1,8 +1,15 @@
 <div class="post-header">
-    <p class="post-author">{{ post.author }} - {{ post.created_at|date:"M d, Y" }}</p>
+    <p class="post-author">
+        <a href="{% url 'profile' post.author.username %}" class="author-link">
+            {{ post.author.username }}
+        </a>
+        - {{ post.created_at|date:"M d, Y" }}
+    </p>
+
     {% if post.was_edited %}
     <p class="text-muted small">edited {{ post.updated_at|timesince }} ago</p>
     {% endif %}
+
     {% if post.author == request.user %}
     <div class="post-actions">
         <a href="{% url 'edit_post' post.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>

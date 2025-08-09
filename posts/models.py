@@ -26,6 +26,7 @@ class Post(models.Model):
     def was_edited(self):
         return (self.updated_at - self.created_at).total_seconds() > 1
 
+
 @receiver(pre_delete, sender=Post)
 def delete_post_images(sender, instance, **kwargs):
     if instance.image:

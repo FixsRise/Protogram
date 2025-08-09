@@ -1,3 +1,7 @@
+
+
+
+
 function getCookie(name) {
     if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
         console.error('Invalid cookie name');
@@ -91,4 +95,6 @@ function initLikeHandler() {
 }
 
 document.addEventListener('DOMContentLoaded', initLikeHandler);
+
+
 

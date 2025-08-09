@@ -18,8 +18,8 @@ from django.shortcuts import render
 # from django.contrib import admin
 from django.urls import path
 
-import main
-from main import views
+import core
+from core import views
 
 urlpatterns = [
     #    path('admin/', admin.site.urls),

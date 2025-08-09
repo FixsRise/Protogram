@@ -20,3 +20,4 @@ def index(request):
         'last_news_id': last_news_id,
     }
     return render(request, 'main/index.html', context)
+

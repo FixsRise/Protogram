@@ -1,0 +1,24 @@
+{% extends 'index_base.html' %}
+
+{% block content %}
+<div class="profile">
+    <h2>User profile {{ profile_user.username }}</h2>
+
+    {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar {{ profile_user.username }}" width="150">
+    {% endif %}
+
+    <div class="profile-info">
+        <p><strong>Username:</strong> {{ profile_user.username }}</p>
+        <p><strong>Email:</strong> {{ profile_user.email }}</p>
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+        <p><strong>Registration date:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
+    </div>
+
+    {% if request.user == profile_user %}
+{#        <a href="{% url 'edit_profile' %}">Редактировать профиль</a>#}
+        <h>Edit profile</h>
+
+    {% endif %}
+</div>
+{% endblock %}
