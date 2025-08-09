@@ -13,11 +13,6 @@
         {% endfor %}
     </div>
 
-    {% if has_next %}
-        <div class="load-more-container">
-            <button id="load-more-btn" class="load-more-btn">Показать еще</button>
-        </div>
-    {% endif %}
 
 
 <script>
@@ -31,42 +26,7 @@
         }
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('load-more-btn');
-        const postsContainer = document.getElementById('posts-container');
-        let page = 1;
 
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function() {
-                this.disabled = true;
-                this.textContent = 'Загрузка...';
-
-                fetch(`?page=${page + 1}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.html) {
-                            postsContainer.insertAdjacentHTML('beforeend', data.html);
-                            page++;
-
-                            // Если больше нет постов, удаляем кнопку
-                            if (!data.has_next) {
-                                this.parentElement.remove();
-                            } else {
-                                this.disabled = false;
-                                this.textContent = 'Показать еще';
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        this.disabled = false;
-                        this.textContent = 'Показать еще';
-                    });
-            });
-        }
-    });
-</script>
 
 {% endblock %}
 
