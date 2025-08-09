@@ -116,7 +116,7 @@ def delete_post(request, post_id):
         post.delete()
         return redirect('home')
 
-    return render(request, 'posts/confirm_delete.html', {'post': post})
+    return render(request, 'posts/includes/confirm_delete.html', {'post': post})
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
 

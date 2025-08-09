@@ -1,0 +1,42 @@
+<div class="post-header">
+    <p class="post-author">{{ post.author }} - {{ post.created_at|date:"M d, Y" }}</p>
+    {% if post.was_edited %}
+    <p class="text-muted small">edited {{ post.updated_at|timesince }} ago</p>
+    {% endif %}
+    {% if post.author == request.user %}
+    <div class="post-actions">
+        <a href="{% url 'edit_post' post.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+        <button class="btn btn-sm btn-outline-danger delete-btn"
+                data-post-id="{{ post.id }}"
+                data-post-url="{% url 'delete_post' post.id %}">
+            Delete
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.post-author {
+    margin: 0;
+    font-weight: 600;
+    color: #262626;
+}
+
+.text-muted {
+    color: #999;
+    font-size: 0.8em;
+}
+
+.post-actions {
+    display: flex;
+    gap: 8px;
+}
+</style>

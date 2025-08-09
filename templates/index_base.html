@@ -9,10 +9,16 @@
     <title>{% block title %}{% endblock %}</title>
 {#    <link rel="stylesheet" href="{% static 'main/css/posts.css' %}">#}
     <script src="{% static 'posts/likes.js' %}"></script>
+{#    <script src="{% static 'main/page_scroll.js' %}"></script>#}
+{#    <script src="{% static 'posts/delete_button.js' %}"></script>#}
 </head>
 <body>
 
     {% block content %}
+
+    {% endblock %}
+
+    {% block modals %}
 
     {% endblock %}
 

@@ -1,4 +1,5 @@
 {% extends "index_base.html" %}
+% load static %
 <title>{% block title %}Login{% endblock %}</title>
 
 {% block content %}
@@ -6,9 +7,18 @@
     <h2>Want to create your own post?</h2>
     <a href="{% url 'create_post' %}">+</a>
     <hr>
-    {% for post in posts %}
-        {% include 'posts/post.html' with post=post %}
-    {% endfor %}
+    <div id="posts-container">
+        {% for post in posts %}
+            {% include 'posts/post.html' with post=post %}
+        {% endfor %}
+    </div>
+
+    {% if has_next %}
+        <div class="load-more-container">
+            <button id="load-more-btn" class="load-more-btn">Показать еще</button>
+        </div>
+    {% endif %}
+
 
 <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +31,47 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const postsContainer = document.getElementById('posts-container');
+        let page = 1;
 
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                this.disabled = true;
+                this.textContent = 'Загрузка...';
+
+                fetch(`?page=${page + 1}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.html) {
+                            postsContainer.insertAdjacentHTML('beforeend', data.html);
+                            page++;
+
+                            // Если больше нет постов, удаляем кнопку
+                            if (!data.has_next) {
+                                this.parentElement.remove();
+                            } else {
+                                this.disabled = false;
+                                this.textContent = 'Показать еще';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        this.disabled = false;
+                        this.textContent = 'Показать еще';
+                    });
+            });
+        }
+    });
+</script>
+
+{% endblock %}
+
+
+{% block modals %}
+    {% include 'posts/includes/confirm_delete.html' %}
 {% endblock %}
 

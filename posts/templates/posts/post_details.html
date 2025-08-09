@@ -7,12 +7,7 @@
 
     <a href="{{ request.META.HTTP_REFERER }}" class="back-link">← Back</a>
 
-    <div class="post-header">
-        <p class="post-author">{{ post.author }} - {{ post.created_at|date:"M d, Y" }}</p>
-        {% if post.author == request.user %}
-        <a href="{% url 'edit_post' post.id %}" class="edit-btn">Edit</a>
-        {% endif %}
-    </div>
+    {% include 'posts/includes/post_header.html' %}
 
     <div class="post-media">
         {% if post.image %}
@@ -29,6 +24,8 @@
         </div>
     </div>
 </div>
+
+{% include 'posts/includes/confirm_delete.html' %}
 
 <style>
 .post-detail {
@@ -127,4 +124,8 @@
     }
 }
 </style>
+{% endblock %}
+
+{% block modals %}
+    {% include 'posts/includes/confirm_delete.html' %}
 {% endblock %}
