@@ -16,13 +16,13 @@ function handleBackButton(event) {
   const currentUrl = window.location.href;
   const fallbackUrl = target.getAttribute('href') || target.getAttribute('data-href') || '/';
 
-  // Валидация URL
+
   if (!isSafeUrl(fallbackUrl, currentUrl)) {
     window.location.href = '/';
     return;
   }
 
-  // Пробуем вернуться через History API
+
   if (window.history.length > 1) {
     try {
       window.history.back();
@@ -41,7 +41,7 @@ function handleBackButton(event) {
   }
 }
 
-// Инициализация (с защитой от дублирования)
+
 let isInitialized = false;
 function initBackButtons() {
   if (isInitialized) return;
@@ -53,10 +53,10 @@ function initBackButtons() {
   });
 }
 
-// Запуск
+
 document.addEventListener('DOMContentLoaded', initBackButtons);
 
-// Для динамических элементов
+
 if (typeof MutationObserver !== 'undefined') {
   new MutationObserver(initBackButtons).observe(document.body, {
     childList: true,

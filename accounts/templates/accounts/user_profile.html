@@ -10,17 +10,22 @@
 
     <div class="profile-info">
         <p><strong>Username:</strong> {{ profile_user.username }}</p>
-        <p><strong>Email:</strong> {{ profile_user.email }}</p>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
         <p><strong>Registration date:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
     </div>
 
     {% if request.user == profile_user %}
-{#        <a href="{% url 'edit_profile' %}">Редактировать профиль</a>#}
-        <h>Edit profile</h>
+        <a href="{% url 'edit_profile' user.username %}" class="btn btn-primary">Edit Profile</a>
 
     {% endif %}
+
+    <hr>
+
     <div class="profile-posts-grid">
+    {% if request.user == profile_user%}
+    <a href="{% url 'create_post' %}">+</a>
+    {% endif %}
+
     {% for post in posts %}
     {% include 'posts/post_miniature.html' %}
     {% endfor %}
@@ -32,10 +37,10 @@
 
 .profile-posts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 колонки как в Instagram */
-    gap: 2px; /* Маленький промежуток между постами */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
     width: 100%;
-    max-width: 935px; /* Максимальная ширина как в Instagram */
+    max-width: 935px;
     margin: 0 auto;
 }
 

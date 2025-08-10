@@ -43,13 +43,14 @@ class PostForm(forms.ModelForm):
                 'placeholder': 'Write your post here...',
                 'class': 'form-control'
             }),
+            'image': forms.FileInput(attrs={'class': 'form-control-file'}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['image'].widget.attrs.update({'class': 'form-control-file'})
         if self.instance and self.instance.pk:
             self.fields['image'].required = False
+            self.fields['image'].widget = forms.FileInput(attrs={'class': 'form-control-file'})
 
     def clean_image(self):
         image = self.cleaned_data.get('image')

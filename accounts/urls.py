@@ -23,5 +23,9 @@ from accounts import views
 urlpatterns = [
     path('login/', views.login_user, name='login_user'),
     path('register/', views.register_user, name='register_user'),
-    path('<str:username>', views.profile, name='profile'),
+
+    path('logout/', views.logout_user, name='logout_user'),
+
+    path('<str:username>/', views.profile, name='profile'),
+    path('<str:username>/edit/', views.edit_profile, name='edit_profile'),
 ]

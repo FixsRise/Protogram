@@ -20,7 +20,7 @@ def post_detail(request, post_id):
 
 
 @require_POST
-@login_required
+@login_required(login_url='/accounts/login/')
 def like_post(request, post_id):
 
     if not request.user.is_authenticated:
@@ -98,7 +98,7 @@ def like_post(request, post_id):
             {'status': 'error', 'message': 'Internal server error'},
             status=500
         )
-
+@login_required
 def create_post(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -113,6 +113,7 @@ def create_post(request):
     return render(request, 'posts/create_post.html', {'form': form})
 
 
+@login_required
 def delete_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id, author=request.user)
     if request.method == "POST":
@@ -120,6 +121,7 @@ def delete_post(request, post_id):
         return redirect('home')
 
     return render(request, 'posts/includes/confirm_delete.html', {'post': post})
+@login_required
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
 

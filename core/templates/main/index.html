@@ -7,6 +7,8 @@
     <h2>Want to create your own post?</h2>
     <a href="{% url 'create_post' %}">+</a>
     <hr>
+
+
     <div id="posts-container" data-last-news-id="{{ last_news_id }}">
         {% for post in posts %}
             {% include 'posts/post.html' with post=post %}

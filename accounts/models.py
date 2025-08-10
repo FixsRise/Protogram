@@ -13,12 +13,11 @@ def edit_avatar_name(instance, filename):
     return f"avatars/{new_filename}"
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, )
     avatar = models.ImageField(upload_to=edit_avatar_name, blank=True)
     bio = models.TextField(blank=True)
 
 class RegisterUserForm(UserCreationForm):
-    email = forms.EmailField(required=True, label='Email')
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -39,4 +38,30 @@ class LoginUserForm(AuthenticationForm):
         if username:
             return username.lower()
         return username
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar', 'bio']
+        widgets = {
+            'bio': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': 'Write your bio here...',
+                'class': 'form-control'
+            }),
+            'avatar': forms.FileInput(attrs={'class': 'form-control-file'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['avatar'].required = False
+            self.fields['avatar'].widget = forms.FileInput(attrs={'class': 'form-control-file'})
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if not avatar and self.instance.avatar:
+            return self.instance.avatar
+        return avatar
+
 
