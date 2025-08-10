@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c90a6be7-aaff-428c-b3ce-afc81e9fb8ce" name="Changes" comment="auth app created">
-      <change afterPath="$PROJECT_DIR$/core/static/main/back_button.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/posts/templates/posts/post_miniature.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/templates/accounts/user_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/templates/accounts/user_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/static/main/page_scroll.js" beforeDir="false" afterPath="$PROJECT_DIR$/core/static/main/page_scroll.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/templates/main/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/main/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/templates/posts/edit_post.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/templates/posts/edit_post.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/templates/posts/post_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/templates/posts/post_details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index_base.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +120,7 @@
       <workItem from="1754572588338" duration="9459000" />
       <workItem from="1754639653474" duration="36454000" />
       <workItem from="1754723182092" duration="18876000" />
-      <workItem from="1754811151188" duration="10322000" />
+      <workItem from="1754811151188" duration="10732000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -188,7 +178,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754777555439</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="auth app created">
+      <option name="closed" value="true" />
+      <created>1754822423843</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1754822423843</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
