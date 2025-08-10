@@ -25,7 +25,6 @@ urlpatterns = [
     #    path('admin/', admin.site.urls),
     path('', views.index, name='home'),
 
-    path('load-more-posts/', views.load_more_posts, name='load_more_posts'),
 
 
 ]
