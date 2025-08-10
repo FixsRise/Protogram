@@ -7,7 +7,7 @@
     <h2>Want to create your own post?</h2>
     <a href="{% url 'create_post' %}">+</a>
     <hr>
-    <div id="posts-container">
+    <div id="posts-container" data-last-news-id="{{ last_news_id }}">
         {% for post in posts %}
             {% include 'posts/post.html' with post=post %}
         {% endfor %}
@@ -15,17 +15,7 @@
 
 
 
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        const lastNewsId = "{{ last_news_id }}";
-        if (lastNewsId) {
-            const element = document.getElementById(`post-${lastNewsId}`);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-    });
-</script>
+
 
 
 {% endblock %}

@@ -20,5 +20,25 @@
         <h>Edit profile</h>
 
     {% endif %}
+    <div class="profile-posts-grid">
+    {% for post in posts %}
+    {% include 'posts/post_miniature.html' %}
+    {% endfor %}
+    </div>
 </div>
+
+
+<style>
+
+.profile-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки как в Instagram */
+    gap: 2px; /* Маленький промежуток между постами */
+    width: 100%;
+    max-width: 935px; /* Максимальная ширина как в Instagram */
+    margin: 0 auto;
+}
+
+</style>
+
 {% endblock %}

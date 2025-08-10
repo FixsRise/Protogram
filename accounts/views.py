@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from Protogram import settings
 from accounts.models import LoginUserForm, RegisterUserForm, UserProfile
+from posts.models import Post
 
 
 # Create your views here.
@@ -52,21 +53,25 @@ def register_user(request):
 def profile(request, username):
     try:
         user = get_object_or_404(User, username=username)
-        profile = user.userprofile  # Получаем связанный профиль
+        profile = user.userprofile
+        post_list = Post.objects.all().filter(author=user).order_by('-created_at')
 
         context = {
             'profile_user': user,
             'profile': profile,
+            'posts' : post_list,
         }
 
         return render(request, 'accounts/user_profile.html', context)
     except User.DoesNotExist:
-        raise Http404("Пользователь не найден")
-    except AttributeError:  # Если нет связанного профиля
-        # Создаем профиль, если его нет
+        raise Http404("User not found")
+    except AttributeError:
+
         profile = UserProfile.objects.create(user=user)
+        post_list = Post.objects.all().filter(author=user).order_by('-created_at')
         context = {
             'profile_user': user,
             'profile': profile,
+            'posts': post_list,
         }
         return render(request, 'accounts/user_profile.html', context)
