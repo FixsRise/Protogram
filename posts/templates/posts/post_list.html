@@ -1,0 +1,5 @@
+{% for post in posts %}
+    {% include 'posts/post.html' with post=post %}
+{% empty %}
+    <p>No posts</p>
+{% endfor %}

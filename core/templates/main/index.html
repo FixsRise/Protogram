@@ -1,29 +1,51 @@
 {% extends "index_base.html" %}
-% load static %
-<title>{% block title %}Login{% endblock %}</title>
+{% load static %}
+
+{% block title %}Protogram{% endblock %}
 
 {% block content %}
-    <h1>Posts:</h1>
-    <h2>Want to create your own post?</h2>
-    <a href="{% url 'create_post' %}">+</a>
-    <hr>
+<h1>Posts:</h1>
+<a href="{% url 'create_post' %}">+</a>
+<hr>
 
+<div id="posts-container">
+    {% include 'posts/post_list.html' with posts=posts %}
+</div>
 
-    <div id="posts-container" data-last-news-id="{{ last_news_id }}">
-        {% for post in posts %}
-            {% include 'posts/post.html' with post=post %}
-        {% endfor %}
-    </div>
+<div id="loading" style="display:none;text-align:center;margin:20px;">
+    <p>Loading...</p>
+</div>
 
+<script>
+let currentPage = 1;
+let loading = false;
+let hasNext = true;
 
+window.addEventListener('scroll', () => {
+    if (loading || !hasNext) return;
 
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        loadMorePosts();
+    }
+});
 
+function loadMorePosts() {
+    loading = true;
+    document.getElementById('loading').style.display = 'block';
+    currentPage += 1;
 
-
+    fetch(`{% url 'load_more_posts' %}?page=${currentPage}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('posts-container').insertAdjacentHTML('beforeend', data.posts_html);
+            hasNext = data.has_next;
+            loading = false;
+            document.getElementById('loading').style.display = 'none';
+        })
+        .catch(() => {
+            loading = false;
+            document.getElementById('loading').style.display = 'none';
+        });
+}
+</script>
 {% endblock %}
-
-
-{% block modals %}
-    {% include 'posts/includes/confirm_delete.html' %}
-{% endblock %}
-
