@@ -16,6 +16,8 @@
     <p>Loading...</p>
 </div>
 
+
+
 <script>
 let currentPage = 1;
 let loading = false;
@@ -48,4 +50,8 @@ function loadMorePosts() {
         });
 }
 </script>
+{% endblock %}
+
+{% block modals %}
+    {% include 'posts/includes/confirm_delete.html' %}
 {% endblock %}

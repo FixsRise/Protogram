@@ -10,7 +10,7 @@ from django.template.loader import render_to_string
 from posts.models import Post
 
 
-POSTS_PER_PAGE = 5  # количество постов за один запрос
+POSTS_PER_PAGE = 3
 
 def index(request):
     post_list = Post.objects.all().order_by('-created_at')
