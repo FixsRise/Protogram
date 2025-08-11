@@ -1,34 +1,3 @@
-{% extends "index_base.html" %}
-{% block title %}Create Post{% endblock %}
-
-{% block content %}
-
-<div class="post-detail">
-
-    <a href="{{ request.META.HTTP_REFERER }}" class="back-link">← Back</a>
-
-    {% include 'posts/includes/post_header.html' %}
-
-    <div class="post-media">
-        {% if post.image %}
-        <img src="{{ post.image.url }}" class="post-image" alt="Post image">
-        {% else %}
-        <div class="no-image-placeholder">No image available</div>
-        {% endif %}
-    </div>
-
-    <div class="post-content">
-        <h2 class="post-caption">{{ post.caption }}</h2>
-        <div class="post-stats">
-            {% include 'posts/includes/like_section.html' %}
-        </div>
-    </div>
-</div>
-
-{% include 'posts/includes/confirm_delete.html' %}
-
-<style>
-
 .post-detail {
     max-width: 600px;
     margin: 20px auto;
@@ -124,12 +93,3 @@
         max-height: none;
     }
 }
-
-
-</style>
-
-{% endblock %}
-
-{% block modals %}
-    {% include 'posts/includes/confirm_delete.html' %}
-{% endblock %}

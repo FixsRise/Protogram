@@ -1,24 +1,87 @@
 {% extends "index_base.html" %}
-% load static %
-<title>{% block title %}Login{% endblock %}</title>
+{% load static %}
+
+{% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Posts:</h1>
-    <h2>Want to create your own post?</h2>
-    <a href="{% url 'create_post' %}">+</a>
-    <hr>
-
-
-    <div id="posts-container" data-last-news-id="{{ last_news_id }}">
-        {% for post in posts %}
-            {% include 'posts/post.html' with post=post %}
-        {% endfor %}
+<div class="posts-page">
+    <div class="page-header">
+        <h1>Recent Posts</h1>
+        <a href="{% url 'create_post' %}" class="create-btn">
+            <span>+</span> New Post
+        </a>
     </div>
 
+    <div id="posts-container">
+        {% for post in posts %}
+            {% include 'posts/post.html' with post=post %}
+        {% empty %}
+        <div class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc">
+                <path d="M8 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+            </svg>
+            <p>No posts yet</p>
+            <a href="{% url 'create_post' %}" class="create-btn">Create First Post</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
+<style>
+.posts-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-{% endblock %}
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
 
-{% block modals %}
-    {% include 'posts/includes/confirm_delete.html' %}
+.page-header h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #262626;
+}
+
+.create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 16px;
+    background: #3897f0;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.create-btn:hover {
+    background: #2684f0;
+}
+
+.create-btn span {
+    font-size: 18px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.empty-state svg {
+    margin-bottom: 16px;
+    stroke-width: 1.2;
+}
+
+.empty-state p {
+    color: #999;
+    margin-bottom: 20px;
+}
+</style>
+
 {% endblock %}

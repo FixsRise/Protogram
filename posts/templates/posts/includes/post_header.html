@@ -1,23 +1,35 @@
+
+
 <div class="post-header">
-    <p class="post-author">
+    <div class="header-left">
         <a href="{% url 'profile' post.author.username %}" class="author-link">
             {{ post.author.username }}
         </a>
-        - {{ post.created_at|date:"M d, Y" }}
-    </p>
-
-    {% if post.was_edited %}
-    <p class="text-muted small">edited {{ post.updated_at|timesince }} ago</p>
-    {% endif %}
+        <span class="post-meta">
+            <span class="post-date">- {{ post.created_at|date:"M d, Y" }}</span>
+            {% if post.was_edited %}
+            <span class="post-edited">(edited {{ post.updated_at|timesince }} ago)</span>
+            {% endif %}
+        </span>
+    </div>
 
     {% if post.author == request.user %}
     <div class="post-actions">
-        <a href="{% url 'edit_post' post.id %}" class="btn btn-sm btn-outline-secondary">Edit</a>
-        <button class="btn btn-sm btn-outline-danger delete-btn"
-                data-post-id="{{ post.id }}"
-                data-post-url="{% url 'delete_post' post.id %}">
-            Delete
+        <button class="more-btn" aria-label="More options">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#262626">
+                <circle cx="12" cy="12" r="2.5"></circle>
+                <circle cx="6" cy="12" r="2.5"></circle>
+                <circle cx="18" cy="12" r="2.5"></circle>
+            </svg>
         </button>
+        <div class="actions-dropdown">
+            <a href="{% url 'edit_post' post.id %}" class="action-item">Edit</a>
+            <button class="action-item delete-btn"
+                    data-post-id="{{ post.id }}"
+                    data-post-url="{% url 'delete_post' post.id %}">
+                Delete
+            </button>
+        </div>
     </div>
     {% endif %}
 </div>
@@ -28,22 +40,90 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    position: relative;
 }
 
-.post-author {
-    margin: 0;
+.header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.author-link {
     font-weight: 600;
     color: #262626;
+    text-decoration: none;
 }
 
-.text-muted {
-    color: #999;
-    font-size: 0.8em;
+.author-link:hover {
+    text-decoration: underline;
+}
+
+.post-meta {
+    color: #8e8e8e;
+}
+
+.post-date {
+    font-weight: 400;
+}
+
+.post-edited {
+    font-size: 0.9em;
 }
 
 .post-actions {
-    display: flex;
-    gap: 8px;
+    position: relative;
+}
+
+.more-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.more-btn:hover {
+    opacity: 1;
+}
+
+.actions-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 6px 0;
+    min-width: 120px;
+    z-index: 100;
+    display: none;
+}
+
+.post-actions:hover .actions-dropdown {
+    display: block;
+}
+
+.action-item {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #262626;
+    font-size: 13px;
+    text-align: left;
+    background: none;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.action-item:hover {
+    background: #f8f8f8;
+}
+
+.delete-btn {
+    color: #ed4956;
 }
 </style>

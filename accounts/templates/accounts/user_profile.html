@@ -1,49 +1,237 @@
 {% extends 'index_base.html' %}
 
 {% block content %}
-<div class="profile">
-    <h2>User profile {{ profile_user.username }}</h2>
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="{{ profile_user.username }}" class="avatar-img">
+            {% else %}
+                <div class="avatar-placeholder">
+                    {{ profile_user.username|first|upper }}
+                </div>
+            {% endif %}
+        </div>
 
-    {% if profile.avatar %}
-        <img src="{{ profile.avatar.url }}" alt="Avatar {{ profile_user.username }}" width="150">
-    {% endif %}
+        <div class="profile-info">
+            <div class="profile-username">
+                <h1>{{ profile_user.username }}</h1>
+                {% if request.user == profile_user %}
+                    <a href="{% url 'edit_profile' user.username %}" class="edit-profile-btn">Edit Profile</a>
+                {% endif %}
+            </div>
 
-    <div class="profile-info">
-        <p><strong>Username:</strong> {{ profile_user.username }}</p>
-        <p><strong>Bio:</strong> {{ profile.bio }}</p>
-        <p><strong>Registration date:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
+
+            <div class="profile-bio">
+                <p>{{ profile.bio }}</p>
+                <p class="join-date">Joined {{ profile_user.date_joined|date:"F Y" }}</p>
+            </div>
+        </div>
     </div>
 
-    {% if request.user == profile_user %}
-        <a href="{% url 'edit_profile' user.username %}" class="btn btn-primary">Edit Profile</a>
+    <div class="profile-posts">
+        {% if request.user == profile_user %}
+        <a href="{% url 'create_post' %}" class="create-post-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            New Post
+        </a>
+        {% endif %}
 
-    {% endif %}
-
-    <hr>
-
-    <div class="profile-posts-grid">
-    {% if request.user == profile_user%}
-    <a href="{% url 'create_post' %}">+</a>
-    {% endif %}
-
-    {% for post in posts %}
-    {% include 'posts/post_miniature.html' %}
-    {% endfor %}
+        {% if posts %}
+            <div class="posts-grid">
+                {% for post in posts %}
+                    {% include 'posts/post_miniature.html' %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-posts">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8e8e8e">
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <line x1="21" y1="15" x2="12" y2="15"></line>
+                    <line x1="21" y1="18" x2="12" y2="18"></line>
+                </svg>
+                <h3>No Posts Yet</h3>
+                {% if request.user == profile_user %}
+                <p>Share your first photo</p>
+                <a href="{% url 'create_post' %}" class="btn-primary">Create Post</a>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 </div>
 
-
 <style>
-
-.profile-posts-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    width: 100%;
+.profile-container {
     max-width: 935px;
-    margin: 0 auto;
+    margin: 30px auto;
+    padding: 0 20px;
 }
 
-</style>
+.profile-header {
+    display: flex;
+    gap: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #dbdbdb;
+    margin-bottom: 30px;
+}
 
+.profile-avatar {
+    flex: 0 0 150px;
+}
+
+.avatar-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dbdbdb;
+}
+
+.avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    font-weight: bold;
+    color: #8e8e8e;
+    border: 1px solid #dbdbdb;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-username {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-username h1 {
+    font-size: 28px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.edit-profile-btn {
+    padding: 6px 12px;
+    background: #f0f0f0;
+    color: #262626;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-count {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #8e8e8e;
+}
+
+.profile-bio p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.join-date {
+    color: #8e8e8e;
+    font-size: 13px;
+}
+
+.create-post-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background: #0095f6;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.no-posts {
+    text-align: center;
+    padding: 40px 0;
+    color: #8e8e8e;
+}
+
+.no-posts svg {
+    margin-bottom: 16px;
+}
+
+.no-posts h3 {
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 8px;
+}
+
+.no-posts p {
+    margin-bottom: 16px;
+}
+
+.btn-primary {
+    padding: 8px 16px;
+    background: #0095f6;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .profile-avatar {
+        align-self: center;
+    }
+
+    .profile-stats {
+        justify-content: space-around;
+        gap: 10px;
+    }
+
+    .posts-grid {
+        gap: 2px;
+    }
+}
+</style>
 {% endblock %}

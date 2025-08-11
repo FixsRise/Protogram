@@ -146,7 +146,8 @@ def edit_post(request, post_id):
 
             post.caption = form.cleaned_data['caption']
             post.save()
-            return redirect('home')
+            # return redirect('post_detail', post_id=post_id)
+            return redirect('profile', username=request.user.username)
     else:
         form = PostForm(instance=post)
 

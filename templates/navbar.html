@@ -1,32 +1,48 @@
 <nav class="left-navbar">
-  <div class="nav-logo">Protogram</div>
-  <ul class="nav-links">
-    <li>
-      <a href="/" class="nav-link">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-text">Main Page</span>
-      </a>
-    </li>
-    <li>
-      {% if user.is_authenticated %}
-      <a href="{{ user_profile_url }}" class="nav-link">
-        {% if user_avatar %}
-          <img src="{{ user_avatar }}" alt="Profile" class="nav-avatar">
+  <div class="nav-content">
+    <div class="nav-logo">Protogram</div>
+    <ul class="nav-links">
+      <li>
+        <a href="/" class="nav-link active">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M22 23h-6.001a1 1 0 0 1-1-1v-5.455a2.997 2.997 0 1 0-5.993 0V22a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V11.543a1.002 1.002 0 0 1 .31-.724l10-9.543a1 1 0 0 1 1.38 0l10 9.543a1.002 1.002 0 0 1 .31.724V22a1 1 0 0 1-1 1Z"></path>
+          </svg>
+          <span class="nav-text">Home</span>
+        </a>
+      </li>
+      <li>
+        {% if user.is_authenticated %}
+        <a href="{{ user_profile_url }}" class="nav-link">
+          {% if user_avatar %}
+            <img src="{{ user_avatar }}" alt="Profile" class="nav-avatar">
+          {% else %}
+            <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+              <path d="M12 11.816c1.355 0 2.872-.15 3.84-1.256.814-.93 1.078-2.368.806-4.392-.38-2.825-2.117-4.512-4.646-4.512S7.734 3.343 7.354 6.168c-.272 2.024-.008 3.46.806 4.392.968 1.107 2.485 1.256 3.84 1.256ZM8.84 10.18c-.162.185-.13.248.068.407 1.421 1.178 3.868 1.178 5.289 0 .197-.159.23-.222.068-.407-.492-.561-1.421-.719-2.713-.719s-2.22.158-2.712.72Zm6.725 2.654c-.892 1.358-2.717 1.772-3.565 1.772-.848 0-2.673-.414-3.565-1.772-.244-.372.065-.634.407-.555.851.196 2.038.327 3.158.327s2.307-.131 3.158-.327c.342-.08.65.183.407.555ZM20.5 21.5h-17a1 1 0 0 1-1-1v-1.622a4.813 4.813 0 0 1 1.98-3.91 18.055 18.055 0 0 1 4.334-2.279 14.98 14.98 0 0 1 5.372 0 18.06 18.06 0 0 1 4.334 2.28 4.81 4.81 0 0 1 1.98 3.908v1.622a1 1 0 0 1-1 1Z"></path>
+            </svg>
+          {% endif %}
+          <span class="nav-text">Profile</span>
+        </a>
         {% else %}
-          <span class="nav-icon">👤</span>
+        <a href="{% url 'login_user' %}" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069ZM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0Zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"></path>
+          </svg>
+          <span class="nav-text">Log In</span>
+        </a>
         {% endif %}
-        <span class="nav-text">Profile</span>
-      </a>
-      {% else %}
-      <a href="{% url 'login_user' %}" class="nav-link">Log In</a>
-     {% endif %}
-    </li>
-    {% if user.is_authenticated %}
-    <li>
-       <a href="{% url 'logout_user' %}">Log Out</a>
-    </li>
-    {% endif %}
-  </ul>
+      </li>
+      {% if user.is_authenticated %}
+      <li>
+        <a href="{% url 'logout_user' %}" class="nav-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10ZM7 11H4v2h3v3h2v-3h3v-2H9V8H7v3Z"></path>
+          </svg>
+          <span class="nav-text">Log Out</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
 </nav>
 
 <style>
@@ -35,59 +51,73 @@
   left: 0;
   top: 0;
   height: 100vh;
-  width: 250px;
-  background-color: #2c3e50;
-  color: white;
-  display: flex;
-  flex-direction: column;
+  width: 240px;
+  background-color: #fff;
+  border-right: 1px solid #dbdbdb;
   padding: 20px 0;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
+.nav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .nav-logo {
-  padding: 0 20px 20px;
-  font-size: 24px;
-  font-weight: bold;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
+  padding: 0 24px 24px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #262626;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 16px;
 }
 
 .nav-links {
   list-style: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
-  color: white;
+  padding: 12px 24px;
+  color: #262626;
   text-decoration: none;
-  transition: background-color 0.3s;
+  font-size: 15px;
+  transition: background-color 0.2s;
 }
 
 .nav-link:hover {
-  background-color: #34495e;
+  background-color: #fafafa;
+}
+
+.nav-link.active {
+  font-weight: 500;
+}
+
+.nav-link.active .nav-icon {
+  fill: #262626;
 }
 
 .nav-icon {
-  margin-right: 15px;
-  font-size: 20px;
-  width: 20px;
-  text-align: center;
+  width: 22px;
+  height: 22px;
+  margin-right: 16px;
+  fill: #8e8e8e;
 }
 
 .nav-avatar {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px;
+  margin-right: 16px;
 }
 
 .nav-text {
-  font-size: 16px;
+  font-size: 15px;
 }
 </style>
