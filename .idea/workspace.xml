@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c90a6be7-aaff-428c-b3ce-afc81e9fb8ce" name="Changes" comment="prototype working version" />
+    <list default="true" id="c90a6be7-aaff-428c-b3ce-afc81e9fb8ce" name="Changes" comment="prototype working version">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/templates/main/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/core/templates/main/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/posts/1bfbc0e8-305d-4202-a84c-86087c41b426.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/templates/posts/includes/confirm_delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/posts/templates/posts/includes/confirm_delete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index_base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,7 +129,7 @@
       <workItem from="1754639653474" duration="36454000" />
       <workItem from="1754723182092" duration="18876000" />
       <workItem from="1754811151188" duration="35310000" />
-      <workItem from="1754916637729" duration="7328000" />
+      <workItem from="1754916637729" duration="11630000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <option name="closed" value="true" />
@@ -235,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754937046871</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="prototype working version">
+      <option name="closed" value="true" />
+      <created>1754937380910</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1754937380910</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
